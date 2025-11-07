@@ -1,10 +1,12 @@
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import Tilt from "react-parallax-tilt"; 
 import NOCUWEB from "../documents/nocu.png";
 import DavidsRock from "../documents/davidsrock.png";
 import UTP from "../documents/utp.png";
 import VCF from "../documents/vcf.png";
 import WebShop from "../documents/webshop.png";
-import { useState } from "react";
+import ProjectModal from "./ProjectModal"; 
 
 const projects = [
   {
@@ -42,8 +44,16 @@ const projects = [
   },
 ];
 
-export default function Projects({ setOpenProject }) {
+export default function Projects() {
   const [expanded, setExpanded] = useState(null);
+  const [openProject, setOpenProject] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <section id="projects" className="mt-16">
@@ -53,14 +63,20 @@ export default function Projects({ setOpenProject }) {
           const isOpen = expanded === p.id;
           const shortText = p.desc.slice(0, 120) + "...";
 
-          return (
+          const CardContent = (
             <motion.div
               key={p.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.2 }}
-              className="rounded-xl overflow-hidden border border-slate-600/30 hover:shadow-lg transition cursor-pointer bg-slate-800/30 p-4"
-              onClick={() => setExpanded(isOpen ? null : p.id)}
+              className="rounded-xl overflow-hidden border border-slate-600/30 hover:shadow-lg transition bg-slate-800/30 p-4 cursor-pointer"
+              onClick={() => {
+                if (isMobile) {
+                  setExpanded(isOpen ? null : p.id);
+                } else {
+                  setOpenProject(p);
+                }
+              }}
             >
               <img
                 src={p.img}
@@ -69,19 +85,23 @@ export default function Projects({ setOpenProject }) {
               />
               <h3 className="font-semibold text-lg mb-2">{p.title}</h3>
 
-              <motion.p
-                layout
-                className="text-sm opacity-80 overflow-hidden"
-                animate={{ height: isOpen ? "auto" : "4.5rem" }}
-                transition={{ duration: 0.3 }}
-              >
-                {isOpen ? p.desc : shortText}
-              </motion.p>
+              {isMobile && (
+                <motion.p
+                  layout
+                  className="text-sm opacity-80 overflow-hidden"
+                  animate={{ height: isOpen ? "auto" : "4.5rem" }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {isOpen ? p.desc : shortText}
+                </motion.p>
+              )}
 
               <div className="flex justify-between items-center mt-2">
-                <span className="text-indigo-400 text-sm font-medium hover:underline">
-                  {isOpen ? "Show less ↑" : "Read more ↓"}
-                </span>
+                {isMobile && (
+                  <span className="text-indigo-400 text-sm font-medium hover:underline">
+                    {isOpen ? "Show less ↑" : "Read more ↓"}
+                  </span>
+                )}
                 {p.link && (
                   <a
                     href={p.link}
@@ -96,8 +116,28 @@ export default function Projects({ setOpenProject }) {
               </div>
             </motion.div>
           );
+
+          return isMobile ? (
+            CardContent
+          ) : (
+            <Tilt
+              key={p.id}
+              glareEnable={true}
+              glareMaxOpacity={0.2}
+              glareColor="#818cf8"
+              scale={1.05}
+              tiltMaxAngleX={10}
+              tiltMaxAngleY={10}
+              transitionSpeed={2500}
+              className="cursor-pointer"
+            >
+              {CardContent}
+            </Tilt>
+          );
         })}
       </div>
+
+      <ProjectModal openProject={openProject} setOpenProject={setOpenProject} />
     </section>
   );
 }
