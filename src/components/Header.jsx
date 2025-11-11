@@ -12,7 +12,6 @@ export default function Header({ mode, toggleMode }) {
         isDark ? "border-slate-700/20" : "border-slate-300"
       }`}
     >
-      {/* Logo / Name */}
       <h1
         className={`font-bold text-lg sm:text-xl tracking-wide ${
           isDark ? "text-white" : "text-slate-900"
@@ -23,7 +22,6 @@ export default function Header({ mode, toggleMode }) {
         <span className="text-indigo-400">/&gt;</span>
       </h1>
 
-      {/* Desktop Nav */}
       <nav className="hidden md:flex gap-6 items-center text-sm">
         <a
           href="#skills"
@@ -49,7 +47,7 @@ export default function Header({ mode, toggleMode }) {
         >
           Contact
         </a>
-        <button
+        {/* <button
           onClick={toggleMode}
           className={`p-2 rounded-full hover:bg-slate-700/20 transition ${
             isDark ? "text-white" : "text-slate-900"
@@ -57,7 +55,7 @@ export default function Header({ mode, toggleMode }) {
           aria-label="Toggle theme"
         >
           {isDark ? <Sun size={18} /> : <Moon size={18} />}
-        </button>
+        </button> */}
       </nav>
 
       {/* Mobile Menu Button */}
@@ -71,7 +69,7 @@ export default function Header({ mode, toggleMode }) {
         {menuOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
-      {/* Mobile Dropdown Menu */}
+      
       {menuOpen && (
         <div
           className={`absolute top-16 left-0 w-full border-t md:hidden backdrop-blur-sm ${
@@ -102,7 +100,7 @@ export default function Header({ mode, toggleMode }) {
             >
               Contact
             </a>
-            <button
+            {/* <button
               onClick={() => {
                 toggleMode();
                 setMenuOpen(false);
@@ -111,7 +109,7 @@ export default function Header({ mode, toggleMode }) {
               aria-label="Toggle theme"
             >
               {isDark ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
+            </button> */}
           </nav>
         </div>
       )}
