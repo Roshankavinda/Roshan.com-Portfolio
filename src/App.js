@@ -9,7 +9,7 @@ import Footer from "./components/Footer";
 import ProjectModal from "./components/ProjectModal";
 import CustomCursor from "./components/CustomCursor";
 
-// ✅ Scroll Progress Bar Component
+
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
 
@@ -19,7 +19,7 @@ function ScrollProgress() {
       style={{
         transformOrigin: "0%",
         scaleX: scrollYProgress,
-        backgroundColor: "#6366F1", // Indigo-500
+        backgroundColor: "#6366F1", 
         boxShadow: "0 0 8px #6366F1",
       }}
     />
@@ -43,16 +43,16 @@ export default function App() {
           : "bg-gradient-to-b from-sky-50 via-white to-rose-50 text-slate-900"
       } transition-colors duration-700`}
     >
-      {/* 🟣 Scroll Progress Bar */}
+  
       <ScrollProgress />
 
-      {/* ✨ Magic Cursor */}
+  
       <CustomCursor />
 
-      {/* 🧭 Header */}
+   
       <Header mode={mode} toggleMode={toggleMode} />
 
-      {/* 📄 Main Content */}
+    
       <main className="max-w-5xl mx-auto px-6 pb-20">
         <Hero />
         <Skills />
@@ -60,7 +60,7 @@ export default function App() {
         <Contact />
       </main>
 
-      {/* ⚙️ Footer & Modal */}
+  
       <Footer />
       <ProjectModal openProject={openProject} setOpenProject={setOpenProject} />
     </div>
